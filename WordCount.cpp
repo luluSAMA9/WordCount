@@ -2,7 +2,59 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
+int main(int argc, char* argv[])
 {
-	char way[3], file_name[50];	char file[128];	int word = 0, i = 0, flag = 0;	FILE *f;	scanf("%s", way);	scanf("%s", file_name);	if ((f = fopen(file_name, "r")) == NULL)	{		printf("error!");		exit(-1);	}	while (fscanf(f, "%c", &file[i]) != EOF)	{		if (file[i] == ',' || file[i] == ' ') {			flag = 0;		}		else		{			if (flag == 0)			{				word++;				flag = 1;			}			else			{				flag = 1;			}		}		i++;	}	if (way[1] == 'w') 	{		printf("单词数：%d", word);	}	else if (way[1] == 'c') 	{		printf("字符数：%d", i);	}	else 	{		printf("error!");	}	return 0;
+	char file[128]; 
+	int word = 0;          // 单词数
+	int	character = 0;     // 字符数
+	int flag = 0;          // 判断条件
+	FILE *f;
+	// 参数验证
+	if (argc != 3)          
+	{
+		printf("parameter error!");
+		exit(-1);
+	}
+	// 文件验证
+	if ((f = fopen(argv[2], "r")) == NULL)
+	{
+		printf("file error!");
+		exit(-1);
+	}
+	// 读取文件字符
+	while (fscanf(f, "%c", &file[character]) != EOF)
+	{
+		if (file[character] == ',' || file[character] == ' ') {
+			flag = 0;
+		}
+		else
+		{
+			if (flag == 0)
+			{
+				word++;
+				flag = 1;
+			}
+			else
+			{
+				flag = 1;
+			}
+		}
+		character++;
+	}
+	// 输出单词数
+	if (strcmp(argv[1], "-w") == 0)
+	{
+		printf("单词数：%d", word);
+	}
+	// 输出字符数
+	else if (strcmp(argv[1], "-c") == 0)
+	{
+		printf("字符数：%d", character);
+	}
+	// 出错
+	else 
+	{
+		printf("error!");
+	}
+	return 0;
 }
